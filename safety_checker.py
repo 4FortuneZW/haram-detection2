@@ -179,8 +179,8 @@ class Safety_Checker:
         }
 
     # Define return types and names for the safety checker node
-    RETURN_TYPES = ("IMAGE", "BOOLEAN")
-    RETURN_NAMES = ("IMAGE", "nsfw")
+    RETURN_TYPES = ("IMAGE", "BOOLEAN", "BOOLEAN")
+    RETURN_NAMES = ("IMAGE", "Inappropiate", "status")
     FUNCTION = "nsfw_checker"
     CATEGORY = "image"
 
@@ -203,7 +203,7 @@ class Safety_Checker:
         try:
             safety_checker_input = self.safety_feature_extractor(self.numpy_to_pil(images), return_tensors="pt")
             checked_image, nsfw = self.safety_checker(images=images, clip_input=safety_checker_input.pixel_values, sensitivity=sensitivity)
-            return checked_image, nsfw
+            return checked_image, nsfw, nsfw
         except Exception as e:
             logger.error(f"Error in nsfw_checker: {e}")
             raise
